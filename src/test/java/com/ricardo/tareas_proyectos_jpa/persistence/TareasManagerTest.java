@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @Import(SpringConfig.class)
 @ComponentScan("com.ricardo.tareas_proyectos_jpa.persistence")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // Crea bbdd en memoria para pruebas, a partir de la bbdd real
 class TareasManagerTest {
 
     @Autowired
