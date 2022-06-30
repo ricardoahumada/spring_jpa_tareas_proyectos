@@ -1,41 +1,47 @@
 package com.ricardo.tareas_proyectos_jpa.models;
 
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
+@Entity
+@Table(name = "project")
 public class Proyecto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long pid;
 
-    public int pid;
-
-
+    @Column
     public String titulo;
 
-
+    @Column
     public Date fecha_inicio;
 
-
+    @Column
     public Date fecha_fin;
 
+    @ManyToOne
+    @JoinColumn(name = "responsable", nullable = false)
+    public Usuario responsable;
 
-    public Usuario responsable = new Usuario(1, "", "", "");
+    @ManyToMany
+    @JoinTable(
+            name = "project_tasks",
+            joinColumns = @JoinColumn(name = "project", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "task", nullable = false)
+    )
+    private Set<Tarea> tareas;
 
     public Proyecto() {
     }
 
-    public Proyecto(int pid, String titulo, Date fecha_inicio, Date fecha_fin, Usuario responsable) {
+    public Proyecto(Long pid, String titulo, Date fecha_inicio, Date fecha_fin, Usuario responsable) {
         this.pid = pid;
         this.titulo = titulo;
         this.fecha_inicio = fecha_inicio;
@@ -43,11 +49,11 @@ public class Proyecto {
         this.responsable = responsable;
     }
 
-    public int getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
@@ -83,5 +89,15 @@ public class Proyecto {
         this.responsable = responsable;
     }
 
-
+    @Override
+    public String toString() {
+        return "Proyecto{" +
+                "pid=" + pid +
+                ", titulo='" + titulo + '\'' +
+                ", fecha_inicio=" + fecha_inicio +
+                ", fecha_fin=" + fecha_fin +
+                ", responsable=" + responsable +
+                ", tareas=" + tareas +
+                '}';
+    }
 }

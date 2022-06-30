@@ -34,4 +34,12 @@ public class StatusMessage {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	@Override
+	public String toString() {
+		return "StatusMessage{" +
+				"status=" + status +
+				", message='" + message + '\'' +
+				'}';
+	}
 }

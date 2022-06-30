@@ -4,30 +4,41 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "task")
 public class Tarea {
-    private int id;
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private String nombre;
-
-
+    @Column
     private double duracion;
-
-
+    @ManyToOne
+    @JoinColumn(name="project",nullable = false)
     private Proyecto proyecto;
-
-
+    @Column
     private int pid;
 
+    @ManyToOne
+    @JoinColumn(name="responsable",nullable = false)
+    private Usuario responsable;
 
-    private Usuario responsable = new Usuario(1, "", "", "");
+    @ManyToMany
+    @JoinTable(
+            name = "task_participants",
+            joinColumns = @JoinColumn(name="task",nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "user",nullable = false)
+    )
+    private List<Usuario> participantes;
 
     public Tarea() {
 
     }
 
-    public Tarea(int id, String nombre, double duracion, Proyecto proyecto, Usuario responsable) {
+    public Tarea(Long id, String nombre, double duracion, Proyecto proyecto, Usuario responsable) {
         super();
         this.id = id;
         this.nombre = nombre;
@@ -36,11 +47,11 @@ public class Tarea {
         this.responsable = responsable;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,7 +88,7 @@ public class Tarea {
     }
 
     public int getPid() {
-        this.pid = this.proyecto.getPid();
+        this.pid = this.proyecto.getPid().intValue();
         return pid;
     }
 
@@ -85,5 +96,24 @@ public class Tarea {
         this.pid = pid;
     }
 
+    public List<Usuario> getParticipantes() {
+        return participantes;
+    }
 
+    public void setParticipantes(List<Usuario> participantes) {
+        this.participantes = participantes;
+    }
+
+    @Override
+    public String toString() {
+        return "Tarea{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", duracion=" + duracion +
+                ", proyecto=" + proyecto +
+                ", pid=" + pid +
+                ", responsable=" + responsable +
+                ", participantes=" + participantes +
+                '}';
+    }
 }

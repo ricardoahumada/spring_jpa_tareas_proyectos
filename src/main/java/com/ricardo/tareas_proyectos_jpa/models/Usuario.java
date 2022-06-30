@@ -1,88 +1,97 @@
 package com.ricardo.tareas_proyectos_jpa.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.*;
 
 @Entity
-@Table(name="usuario")
+@Table(name = "user")
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long uid;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public int uid;
-	
-	
-	@Column	
-	public String nombre;
-	
-	@Column
-	public String email;
-	
-	@Column
-	public String password;
-	
-	@Column
-	public String foto;
-	
-	public Usuario() {
-	}
-	
-	
-	public Usuario(int uid, String nombre, String email, String foto) {
-		super();
-		this.uid = uid;
-		this.nombre = nombre;
-		this.email = email;
-		this.foto = foto;
-	}
+    @Column
+    public String nombre;
 
-	public int getUid() {
-		return uid;
-	}
+    @Column
+    public String email;
 
-	public void setUid(int uid) {
-		this.uid = uid;
-	}
+    @Column
+    public String password;
 
-	public String getNombre() {
-		return nombre;
-	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
+    //	@Transient
+    @Column
+    public String foto;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
+    public Usuario() {
+    }
 
 
-	public String getPassword() {
-		this.password=null;
-		return password;
-	}
+    public Usuario(Long uid, String nombre, String email, String password, String foto) {
+        this.uid = uid;
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.foto = foto;
+    }
+
+    public Usuario(String nombre, String email, String password, String foto) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.foto = foto;
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
 
-	public void setPassword(String password) {
-		this.password = password;
-	}	
-	
-	
+    public String getPassword() {
+        this.password = null;
+        return password;
+    }
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "uid=" + uid +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", foto='" + foto + '\'' +
+                '}';
+    }
 }

@@ -19,4 +19,12 @@ public class UsuaiosService {
             throw new RuntimeException(e);
         }
     }
+
+    public Usuario getUserById(Long uid) {
+        try {
+            return usuariosManager.getUser(uid);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

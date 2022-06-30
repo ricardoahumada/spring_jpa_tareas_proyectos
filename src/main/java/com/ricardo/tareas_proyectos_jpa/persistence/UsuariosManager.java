@@ -6,26 +6,45 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Properties;
 
 public class UsuariosManager {
-    private static SessionFactory sf = null;
-
     @PersistenceContext
     private EntityManager em;
 
-    public UsuariosManager() throws Exception {
-
+    public UsuariosManager() {
     }
-
 
     public List<Usuario> getUsuarios() throws Exception {
         List<Usuario> listaU = em.createQuery("FROM Usuario").getResultList();
         return listaU;
+    }
+
+    public Usuario getUser(Long uid) throws Exception {
+        return em.find(Usuario.class, uid);
+    }
+
+    @Transactional
+    public Long createUser(Usuario newUser) throws Exception {
+        em.persist(newUser);
+        return newUser.getUid();
+    }
+
+    public Usuario updateUser(Usuario existingUser) throws Exception {
+        em.merge(existingUser);
+        return existingUser;
+    }
+
+    public boolean deleteUser(long uid) throws Exception {
+        Usuario usaurioABorrar = getUser(uid);
+        em.remove(usaurioABorrar);
+        return true;
     }
 
 
