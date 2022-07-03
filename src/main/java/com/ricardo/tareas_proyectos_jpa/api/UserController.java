@@ -18,9 +18,6 @@ public class UserController {
     @Autowired
     private UsuaiosService usuariosService;
 
-    @Autowired
-    private UsuariosManager usuariosManager;
-
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List> getAllUsers() {
 
@@ -38,11 +35,32 @@ public class UserController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Usuario> addUser(@RequestBody Usuario user) {
         try {
-            usuariosManager.createUser(user);
+            user.setUid(null);
+            usuariosService.addUser(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PutMapping(value = "/{uid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Usuario> updateUser(@PathVariable Long uid, @RequestBody Usuario user) {
+        try {
+            user.setUid(uid);
+            Usuario ret = usuariosService.updateUser(user);
+            return new ResponseEntity<>(ret, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            // L'usuari no existeix
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping(value = "/{uid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Usuario> deleteUser(@PathVariable Long uid) {
+        usuariosService.deleteUser(uid);
+        return ResponseEntity.noContent().build();
     }
 
 }

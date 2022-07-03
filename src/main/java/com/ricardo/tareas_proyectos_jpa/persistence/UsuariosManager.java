@@ -36,11 +36,12 @@ public class UsuariosManager {
         return newUser.getUid();
     }
 
+    @Transactional
     public Usuario updateUser(Usuario existingUser) throws Exception {
-        em.merge(existingUser);
-        return existingUser;
+        return em.merge(existingUser);
     }
 
+    @Transactional
     public boolean deleteUser(long uid) throws Exception {
         Usuario usaurioABorrar = getUser(uid);
         em.remove(usaurioABorrar);
