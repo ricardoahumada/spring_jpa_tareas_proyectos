@@ -45,7 +45,12 @@ public class TareasController {
     public ResponseEntity updateTarea(@RequestBody @Valid Tarea tareaExistente) {
         tareasService.actualizarTarea(tareaExistente);
         if (tareaExistente != null) return new ResponseEntity(tareaExistente, HttpStatus.ACCEPTED);
-        else return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_MODIFIED.value(), "No modificado"), HttpStatus.NOT_MODIFIED);
+        else
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_MODIFIED.value(), "No modificado"), HttpStatus.NOT_MODIFIED);
+    }
+
+    public ResponseEntity deleteTarea(Long id) {
+        return null;
     }
 
 }
