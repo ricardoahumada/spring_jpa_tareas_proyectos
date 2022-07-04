@@ -1,7 +1,9 @@
 package com.ricardo.tareas_proyectos_jpa.persistence;
 
 import com.ricardo.tareas_proyectos_jpa.config.SpringConfig;
+import com.ricardo.tareas_proyectos_jpa.models.Proyecto;
 import com.ricardo.tareas_proyectos_jpa.models.Tarea;
+import com.ricardo.tareas_proyectos_jpa.models.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -34,4 +36,60 @@ class TareasManagerTest {
             assertTrue(false);
         }
     }
+
+
+    @Test
+    void getTareaById() {
+        try {
+            Tarea tarea = tManager.getTareaById(2L);
+            System.out.println(tarea);
+            assertTrue(tarea != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    void insertTarea() {
+        try {
+            Proyecto proyectoExistente = new Proyecto();
+            proyectoExistente.setPid(1L);
+            Usuario usuarioExistente = new Usuario();
+            usuarioExistente.setUid(2L);
+            Tarea nuevaTarea = new Tarea(null, "Nueva tarea", 2, proyectoExistente, usuarioExistente);
+
+            tManager.insertTarea(nuevaTarea);
+
+            System.out.println(nuevaTarea);
+            assertTrue(nuevaTarea != null && nuevaTarea.getId() > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    void actualizarTarea() {
+        // actualizar nombre y propietario de la tarea 2
+        try {
+            Usuario usuarioExistente = new Usuario();
+            usuarioExistente.setUid(3L);
+
+            Tarea tareaQueYaExiste = tManager.getTareaById(2L);
+            System.out.println(tareaQueYaExiste);
+
+            tareaQueYaExiste.setNombre("Nuevo nombre de tarea");
+            tareaQueYaExiste.setResponsable(usuarioExistente);
+
+            tManager.actualizarTarea(tareaQueYaExiste);
+
+            System.out.println(tareaQueYaExiste);
+            assertTrue(tareaQueYaExiste != null && tareaQueYaExiste.getNombre().equals("Nuevo nombre de tarea"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

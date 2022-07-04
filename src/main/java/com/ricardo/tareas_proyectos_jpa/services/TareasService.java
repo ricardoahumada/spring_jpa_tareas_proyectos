@@ -15,8 +15,37 @@ public class TareasService {
     public List<Tarea> getAllTareas() {
         try {
             return tareasManager.getTareas();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    public Tarea getTarea(Long id) {
+        try {
+            return tareasManager.getTareaById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Tarea createTarea(Tarea newTarea) {
+        try {
+            return tareasManager.insertTarea(newTarea);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Tarea actualizarTarea(Tarea unaTareaParcial) {
+        try {
+            Tarea tareaExistente = tareasManager.getTareaById(unaTareaParcial.getId());
+
+            tareaExistente.actualizar(unaTareaParcial);
+
+            return tareasManager.actualizarTarea(tareaExistente);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

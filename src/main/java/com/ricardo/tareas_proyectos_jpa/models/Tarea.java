@@ -17,20 +17,21 @@ public class Tarea {
     @Column
     private double duracion;
     @ManyToOne
-    @JoinColumn(name="project",nullable = false)
+    @JoinColumn(name = "project", nullable = false)
     private Proyecto proyecto;
-    @Column
+    @Transient
+    @JsonIgnore
     private int pid;
 
     @ManyToOne
-    @JoinColumn(name="responsable",nullable = false)
+    @JoinColumn(name = "responsable", nullable = false)
     private Usuario responsable;
 
     @ManyToMany
     @JoinTable(
             name = "task_participants",
-            joinColumns = @JoinColumn(name="task",nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "user",nullable = false)
+            joinColumns = @JoinColumn(name = "task", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "user", nullable = false)
     )
     private List<Usuario> participantes;
 
@@ -116,4 +117,13 @@ public class Tarea {
                 ", participantes=" + participantes +
                 '}';
     }
+
+    public void actualizar(Tarea unaTareaParcial) {
+        if (unaTareaParcial.getNombre() != null) this.setNombre(unaTareaParcial.getNombre());
+        if (unaTareaParcial.getDuracion() > 0) this.setDuracion(unaTareaParcial.getDuracion());
+        if (unaTareaParcial.getProyecto() != null) this.setProyecto(unaTareaParcial.getProyecto());
+        if (unaTareaParcial.getResponsable() != null) this.setResponsable(unaTareaParcial.getResponsable());
+        if (unaTareaParcial.getParticipantes() != null) this.setParticipantes(unaTareaParcial.getParticipantes());
+    }
+
 }

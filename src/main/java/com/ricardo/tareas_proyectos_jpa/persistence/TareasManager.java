@@ -22,5 +22,22 @@ public class TareasManager {
         return listaT;
     }
 
+    public Tarea getTareaById(Long id) throws Exception {
+        return em.find(Tarea.class, id);
+    }
+
+    @Transactional
+    public Tarea insertTarea(Tarea nuevaTarea) throws Exception {
+        //No tiene id...es nulo
+        em.persist(nuevaTarea);
+        return nuevaTarea;
+    }
+
+    @Transactional
+    public Tarea actualizarTarea(Tarea tareaAActualizar) throws Exception {
+        //ya tiene un id
+        em.merge(tareaAActualizar);
+        return tareaAActualizar;
+    }
 
 }
