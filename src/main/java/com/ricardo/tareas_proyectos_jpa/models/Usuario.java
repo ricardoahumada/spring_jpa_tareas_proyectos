@@ -1,5 +1,7 @@
 package com.ricardo.tareas_proyectos_jpa.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -82,6 +84,15 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void actualizarPropiedadsPublicas(Usuario u) {
+        if (u.getNombre() != null) {
+            setNombre(u.getNombre());
+        }
+        if (u.getEmail() != null) {
+            setEmail(u.getEmail());
+        }
     }
 
     @Override
